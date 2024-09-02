@@ -1,4 +1,4 @@
-//nvcc test.cu -I.. -I/usr/local/cuda/include/ -I../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -c -lcurand -gencode=arch=compute_70,code=sm_70 &&  mpicxx test.o -I/usr/local/cuda/include/ -I../build/include/ -L../../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
+//nvcc test.cu -I.. -I$(CUDA_PATH)/include/ -I../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -c -lcurand -gencode=arch=compute_70,code=sm_70 &&  mpicxx test.o -I$(CUDA_PATH)/include/ -I../build/include/ -L../../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
 #include <stdio.h>
 #include "cuda_runtime.h"
 #include "nccl.h"
@@ -82,7 +82,7 @@ __global__ void floatToHalfArrayKernel(half* h, float* f, size_t num)
 
   h[id] = __half2float(f[id]);
 }
-//nvcc test.cu -I.. -I/usr/local/cuda/include/ -I../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -c -lcurand -gencode=arch=compute_70,code=sm_70 &&  mpicxx test.o -I/usr/local/cuda/include/ -I../build/include/ -L../../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
+//nvcc test.cu -I.. -I$(CUDA_PATH)/include/ -I../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -c -lcurand -gencode=arch=compute_70,code=sm_70 &&  mpicxx test.o -I$(CUDA_PATH)/include/ -I../build/include/ -L../../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
 template<>
 void cudaMemRandInt<half>(half* dst, size_t nelems)
 {

@@ -2,7 +2,7 @@
 #include <dsl.hpp>
 #include <astvisitor.hpp>
 
-//nvcc test.cu -lcudadevrt -lcudart -I.. -I/usr/local/cuda/include/ -I ../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L/usr/local/cuda/lib64/ -lnccl -lcublas -lcurand -c && mpicxx test.o -I/usr/local/cuda/include/ -I../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand -lcudadevrt
+//nvcc test.cu -lcudadevrt -lcudart -I.. -I$(CUDA_PATH)/include/ -I ../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L$(CUDA_PATH)/lib64/ -lnccl -lcublas -lcurand -c && mpicxx test.o -I$(CUDA_PATH)/include/ -I../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand -lcudadevrt
 
 //TODO:
 //Test cases using googletest
@@ -181,7 +181,7 @@ void adam()
      *    the computation of s.
     */
 
-//Compile test.cu nvcc test.cu -I/usr/local/cuda/include/ -I../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -c -lcurand && mpicxx test.o -I/usr/local/cuda/include/ -I../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
+//Compile test.cu nvcc test.cu -I$(CUDA_PATH)/include/ -I../build/include/ -L../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -c -lcurand && mpicxx test.o -I$(CUDA_PATH)/include/ -I../build/include/ -L../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
     Pipeline pipeline({g, w, m, v, lr, beta1, beta2}, {w1});
     //Ideally, this should be illegal because m1 and v1 are not scattered 
     //but they are treated as scattered. So, for now we are going to allow 
@@ -214,7 +214,7 @@ void adamfMVG16()
     Stage v_ = v1/beta2;
     Stage w1 = w - Cast(TensorElemType::Float32, lr * m_ / v_);
     
-    //Compile test.cu nvcc test.cu -I/usr/local/cuda/include/ -I../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -c -lcurand && mpicxx test.o -I/usr/local/cuda/include/ -I../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
+    //Compile test.cu nvcc test.cu -I$(CUDA_PATH)/include/ -I../build/include/ -L../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -c -lcurand && mpicxx test.o -I$(CUDA_PATH)/include/ -I../build/include/ -L../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
     Pipeline pipeline({g, w, m, v, lr, beta1, beta2}, {w1});
     //Ideally, this should be illegal because m1 and v1 are not scattered 
     //but they are treated as scattered. So, for now we are going to allow 
@@ -246,7 +246,7 @@ void adamfG16()
     Stage v_ = v1/beta2;
     Stage w1 = w - lr * m_ / v_;
     
-    //Compile test.cu nvcc test.cu -I/usr/local/cuda/include/ -I../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -c -lcurand && mpicxx test.o -I/usr/local/cuda/include/ -I../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
+    //Compile test.cu nvcc test.cu -I$(CUDA_PATH)/include/ -I../build/include/ -L../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -c -lcurand && mpicxx test.o -I$(CUDA_PATH)/include/ -I../build/include/ -L../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
     Pipeline pipeline({g, w, m, v, lr, beta1, beta2}, {w1});
     //Ideally, this should be illegal because m1 and v1 are not scattered 
     //but they are treated as scattered. So, for now we are going to allow 
@@ -280,7 +280,7 @@ void adamf16ReduceScatterAllGather()
     Stage update = AllGather(scatteredUpdate);
     Stage w1 = w - update;
     
-    //Compile test.cu nvcc test.cu -I/usr/local/cuda/include/ -I../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -c -lcurand && mpicxx test.o -I/usr/local/cuda/include/ -I../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
+    //Compile test.cu nvcc test.cu -I$(CUDA_PATH)/include/ -I../build/include/ -L../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -c -lcurand && mpicxx test.o -I$(CUDA_PATH)/include/ -I../build/include/ -L../build/lib/ -L$(CUDA_PATH)/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
     Pipeline pipeline({g, w, m, v, lr, beta1, beta2}, {w1});
     //Ideally, this should be illegal because m1 and v1 are not scattered 
     //but they are treated as scattered. So, for now we are going to allow 

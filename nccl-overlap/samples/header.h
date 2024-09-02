@@ -127,7 +127,7 @@ __global__ void floatToHalfArrayKernel(half* h, float* f, size_t num)
 
   h[id] = __float2half(f[id]);
 }
-//nvcc test.cu -I.. -I/usr/local/cuda/include/ -I../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -c -lcurand -gencode=arch=compute_70,code=sm_70 &&  mpicxx test.o -I/usr/local/cuda/include/ -I../build/include/ -L../../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
+//nvcc test.cu -I.. -I/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/include/ -I../../nccl-2/build/include/ -L../../nccl-2/build/lib/ -L/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/lib64/ -lcudart -lnccl -lcublas -c -lcurand -gencode=arch=compute_86,code=sm_86 &&  mpicxx test.o -I/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/include/ -I../build/include/ -L../../build/lib/ -L/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/lib64/ -lcudart -lnccl -lcublas -o a.out -Wall -lcurand
 template<>
 void cudaMemRandInt<half>(half* dst, size_t nelems)
 {

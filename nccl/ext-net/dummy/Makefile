@@ -4,7 +4,7 @@
 # See LICENSE.txt for license information
 #
 NCCL_HOME:=../../build/
-CUDA_HOME:=/usr/local/cuda
+CUDA_HOME:=$(CUDA_PATH)
 INC:= -I$(NCCL_HOME)/include -I$(CUDA_HOME)/include
 PLUGIN_SO:=libnccl-net.so
 

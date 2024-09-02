@@ -9,19 +9,20 @@ import traceback
 
 FULL_PERF_EVAL = "1000"
 epochs = 1
+CUDA_PATH ="/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8"
 
 assert sys.version_info.major >= 3 and sys.version_info.minor >= 7, "The script requires Python 3.7+ but is running on Python %d.%d"%(sys.version_info.major, sys.version_info.minor)
 if len(sys.argv) < 2:
     print("Results directory not specified")
     sys.exit(0)
 
-nccl_path = os.path.abspath("../nccl")
+nccl_path = os.path.abspath("../nccl-overlap/")
 resultsDir = os.path.abspath(sys.argv[1])
 assert "NPROC" in os.environ, "Set NPROC to number of processes"
 nranks = os.environ.get("NPROC")
-cudaLibPath = "/usr/local/cuda/lib64"
+cudaLibPath = CUDA_PATH + "/lib64"
 
-os.environ["PATH"] = "/usr/local/cuda/bin:"+(os.environ.get("PATH") if "PATH" in os.environ else "")
+os.environ["PATH"] = CUDA_PATH +"/bin:"+(os.environ.get("PATH") if "PATH" in os.environ else "")
 resultsDir = os.path.abspath(resultsDir)
 if not os.path.exists(resultsDir):
     print("Making ", resultsDir)
@@ -32,7 +33,7 @@ else:
     os.mkdir(resultsDir)
 
 #Run nvprof with mpi on single machine
-#sudo PYTHON_PATH="/home/parasail/.pyenv/versions/myvenv/lib/:$PYTHON_PATH" /usr/local/cuda/bin/nvprof  --profile-child-processes mpirun -np 4 -x NCCL_ALGO=Ring -x MASTER_ADDR=127.0.0.1 -x MASTER_PORT=10000 --allow-run-as-root /home/parasail/.pyenv/shims/python optimbench.p
+#sudo PYTHON_PATH="/home/parasail/.pyenv/versions/myvenv/lib/:$PYTHON_PATH" $(CUDA_PATH)/bin/nvprof  --profile-child-processes mpirun -np 4 -x NCCL_ALGO=Ring -x MASTER_ADDR=127.0.0.1 -x MASTER_PORT=10000 --allow-run-as-root /home/parasail/.pyenv/shims/python optimbench.p
 
 parent_dir = os.getcwd()
 nccl_path = os.path.join(parent_dir, nccl_path)
@@ -49,7 +50,7 @@ def compile_nccl(path):
     print("Compiling nccl at '%s'"%path)
     assert os.path.exists(path), "Path to nccl '%s' is invalid"%path
     os.chdir(path)
-    s, o = subprocess.getstatusoutput("rm -rf build/ ; make -j src.build NVCC_GENCODE=\"-gencode=arch=compute_70,code=sm_70\"")
+    s, o = subprocess.getstatusoutput("rm -rf build/ ; make -j src.build CUDA_HOME="+ CUDA_PATH +" NVCC_GENCODE=\"-gencode=arch=compute_86,code=sm_86\"")
     if (s != 0):
         raise Exception("nccl compilation unsuccessful in '%s'\n"%(path) + "make output: \n%s"%o)
     else:
@@ -122,15 +123,14 @@ def eval_binary(binary):
 try:
     currDir = os.getcwd()
     print("Running Model Parallel Experiments")
+    compile_nccl(nccl_path)
 
-    # compile_nccl(nccl_path)
     os.chdir("../examples/model-parallel")
     make_clean()
     eval_binary("model-parallel-mm-ar-c")
     eval_binary("model-parallel-mm-rs-c-ag")
     make_binary("model-parallel-ol-mm-fuse-rs-c-ag.cu")
-    compile_nccl(nccl_path)
-    os.chdir("../examples/model-parallel")
+    # os.chdir("../examples/model-parallel")
     eval_binary("model-parallel-ol-mm-fuse-rs-c-ag")
     os.chdir(currDir)
 except Exception as e:

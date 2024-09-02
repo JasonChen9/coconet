@@ -1,0 +1,16 @@
+rank: 0:0->1->
+rank: 1:1->0->
+highestStreamPriority -5
+highestStreamPriority -5
+Model Size 8.30 B Params , MatMul: [8192, 1024] X [1024, 4096]
+iter 0
+checking results at iter 0 
+iter 20
+iter 40
+iter 60
+iter 80
+iter 100
+AllReduce+cuBLAS: TotalTime 1222.577881 ms, AllReduceTime 1063.291748 ms, cuBLAS Time 54.447060 ms
+matrixSize 33554432 chunkSize 1048576 nranks * loopSize 4194304
+matrixSize 33554432 chunkSize 1048576 nranks * loopSize 4194304
+iter 0

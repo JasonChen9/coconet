@@ -1,0 +1,25 @@
+
+conda install -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main gcc_impl_linux-64=8.4.0
+conda install -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main gxx_impl_linux-64=8.4.0
+
+
+
+ln -s /mnt/sdb/xiangguangyu/anaconda3/envs/coconet/bin/x86_64-conda-linux-gnu-cc /mnt/sdb/xiangguangyu/anaconda3/envs/coconet/bin/gcc
+ln -s /mnt/sdb/xiangguangyu/anaconda3/envs/coconet/bin/x86_64-conda-linux-gnu-c++ /mnt/sdb/xiangguangyu/anaconda3/envs/coconet/bin/g++ 
+PATH="/mnt/sdb/xiangguangyu/anaconda3/envs/coconet/bin/:/mnt/sdb/xiangguangyu/anaconda3/envs/coconet/lib/:$PATH"
+
+
+PATH=/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/bin:/mnt/sdb/xiangguangyu/opt/cmake-3.30.2-linux-x86_64/bin:/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/bin:/mnt/sdb/xiangguangyu/opt/cmake-3.30.2-linux-x86_64/bin:/mnt/sdb/xiangguangyu/anaconda3/bin:/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.3/bin:/mnt/sdb/xiangguangyu/opt/cmake-3.30.2-linux-x86_64/bin:/mnt/sdb/xiangguangyu/.vscode-server/cli/servers/Stable-fee1edb8d6d72a0ddff41e5f71a671c23ed924b9/server/bin/remote-cli:/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/bin:/mnt/sdb/xiangguangyu/opt/cmake-3.30.2-linux-x86_64/bin:/mnt/sdb/xiangguangyu/anaconda3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/sdb/xiangguangyu/opt/openmpi/bin:/mnt/sdb/xiangguangyu/opt/openmpi/bin:/mnt/sdb/xiangguangyu/opt/openmpi/bin:/mnt/sdb/xiangguangyu/opt/openmpi/bin:
+
+
+cuda 11.3
+gcc 9.3
+python 3.9
+torch 1.12.0
+
+apex 22.04-dev branch
+
+
+
+cd nccl
+make -j12 src.build BUILDDIR=. CUDA_HOME=/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8 NVCC_GENCODE="-gencode=arch=compute_86,code=sm_86"

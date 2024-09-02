@@ -1,4 +1,4 @@
-//nvcc matmul-allreduce.cu -std=c++11 -Xcompiler -fopenmp,-O3 -lcudadevrt -lcudart -I/usr/include/x86_64-linux-gnu/mpi -I.. -I/usr/local/cuda/include/ -I ../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lnccl -lcublas -lcurand -c && mpicxx matmul-allreduce.o -I/usr/local/cuda/include/ -I../build/include/ -L../build/lib/ -L/usr/local/cuda/lib64/ -lcudart -lnccl -lcublas -Wall -lcurand -lcudadevrt -std=c++11 -fopenmp -o matmul-allreduce
+//nvcc matmul-allreduce.cu -std=c++11 -Xcompiler -fopenmp,-O3 -lcudadevrt -lcudart -I/mnt/sdb/xiangguangyu/opt/openmpi -I.. -I/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/include/ -I ../build/include/ -L../build/lib/ -L/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/lib64/ -lnccl -lcublas -lcurand -c && mpicxx matmul-allreduce.o -I/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/include/ -I../build/include/ -L../build/lib/ -L/mnt/sdb/xiangguangyu/opt/CUDA/cuda-11.8/lib64/ -lcudart -lnccl -lcublas -Wall -lcurand -lcudadevrt -std=c++11 -fopenmp -o matmul-allreduce
 
 #include "header.h"
 

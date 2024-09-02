@@ -4,7 +4,7 @@
 # See LICENSE.txt for license information
 #
 
-CUDA_HOME ?= /usr/local/cuda
+CUDA_HOME ?= $(CUDA_PATH)
 PREFIX ?= /usr/local
 VERBOSE ?= 0
 KEEP ?= 0

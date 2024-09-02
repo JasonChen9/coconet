@@ -90,7 +90,7 @@ def take_optimizer_step(device, optimizer, overflow_buf):
 if os.environ['RANK'] == 0:
     print("<result>")
 for name, baseline in [(args.optimizer, baselines[args.optimizer])]:
-    for i in range(10, 31):
+    for i in range(10, 30):
         size = 2**i
         flat_params = torch.zeros(size, dtype=dtype).to(device)
         flat_grads  = torch.zeros(size, dtype=dtype).to(device)
